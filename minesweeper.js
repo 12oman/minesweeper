@@ -3,25 +3,38 @@ document.addEventListener('DOMContentLoaded', startGame)
 // Define your `board` object here!
 var board = {
   cells: [
-          { row: 0, col: 0, isMine: true, hidden: true, surroundingMines: 0}, { row: 0, col:1, isMine:false, hidden: true, surroundingMines: 0}, { row: 0, col:2, isMine:false, hidden: true, surroundingMines: 0}, 
-          { row: 1, col:0, isMine:false, hidden: true, surroundingMines: 0}, { row: 1, col:1, isMine:false, hidden: true, surroundingMines: 0}, { row: 1, col:2, isMine:false, hidden: true, surroundingMines: 0}, 
-          { row: 2, col:0, isMine:false, hidden: false, surroundingMines: 0}, { row: 2, col:1, isMine:false, hidden: true, surroundingMines: 0}, { row: 2, col:2, isMine:false,hidden: true, surroundingMines:0}
+// old manual board
+          // { row: 0, col: 0, isMine: true, hidden: true, surroundingMines: 0}, { row: 0, col:1, isMine:false, hidden: true, surroundingMines: 0}, { row: 0, col:2, isMine:false, hidden: true, surroundingMines: 0}, 
+          // { row: 1, col:0, isMine:false, hidden: true, surroundingMines: 0}, { row: 1, col:1, isMine:false, hidden: true, surroundingMines: 0}, { row: 1, col:2, isMine:false, hidden: true, surroundingMines: 0}, 
+          // { row: 2, col:0, isMine:false, hidden: false, surroundingMines: 0}, { row: 2, col:1, isMine:false, hidden: true, surroundingMines: 0}, { row: 2, col:2, isMine:false,hidden: true, surroundingMines:0}
         ]
   // rows:  [1,2,3,4,5,6,7,8 ]
 }
 
+dynamicBoard = () => {
+  for (var i = 0; i < 6; i++) {
+    for (var j = 0; j < 6; j++) {
+      board.cells.push({
+        row: i,
+        col: j,
+        isMine: Boolean(Math.floor(Math.random() * 1.3)),
+        isMarked: false,
+        hidden: true })
+    }
+  }
+ }
+
 
 function startGame () {
+  // create the board
+  dynamicBoard()
+  // count the surrounding mines
   board.cells.forEach(function(cell) {
     cell.surroundingMines = countSurroundingMines(cell);
   })
+  // check for win condition
   document.addEventListener("click", checkForWin);
   document.addEventListener("contextmenu", checkForWin);
-  // for (i = 0; i < board.cells.length; i ++) {
-    // console.log(board.cells[i].surroundingMines);
-    // board.cells[i].surroundingMines = countSurroundingMines(board.cells[i]);
-    
-  // } 
   // Don't remove this function call: it makes the game work!
   lib.initBoard()
 }
@@ -59,10 +72,11 @@ function countSurroundingMines (cell) {
     if (Near[i].isMine === true) {
       xMines++;
     }
-    return xMines;
+    
     
 
   }
+  return xMines;
 // for as long as surrounding cells.length,
 // check each cell property cell.isMine is true
 // if it is true, increase suppounding mines by 1
