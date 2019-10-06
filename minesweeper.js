@@ -17,7 +17,7 @@ dynamicBoard = () => {
       board.cells.push({
         row: i,
         col: j,
-        isMine: Boolean(Math.floor(Math.random() * 1.3)),
+        isMine: Boolean(Math.floor(Math.random() * 1.1)),
         isMarked: false,
         hidden: true })
     }
